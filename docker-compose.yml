@@ -46,14 +46,18 @@ services:
 
     # PHPMyAdmin
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        platform: linux/x86_64
-        restart: unless-stopped
+        image: phpmyadmin
+        restart: always
         ports:
             - "8080:80"
+        networks:
+            - laravel
         environment:
-            PMA_HOST: db
-            PMA_PORT: 3306
+            #PMA_ARBITRARY: 1
+            PMA_HOST: ${DB_HOST:-db}
+            #PMA_PORT: 3306
+            PMA_USER: ${DB_USERNAME:-username}
+            PMA_PASSWORD: ${DB_PASSWORD:-password}
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
 
     # redis
